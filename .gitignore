@@ -1,0 +1,3 @@
+plug
+*.pyc
+.DS_Store
