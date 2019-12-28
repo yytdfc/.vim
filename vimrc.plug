@@ -112,14 +112,6 @@ let g:ale_linters = {
 " " }}}
 
 
-" molokai {{{
-  Plug 'tomasr/molokai'
-    " monokai原始背景色
-    let g:molokai_original = 1
-    let g:rehash256 = 1
-" }}}
-
-
 " nerdtree nerdtreetabs {{{
   Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
     " map <leader>n :NERDTreeToggle<CR>

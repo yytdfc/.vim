@@ -326,14 +326,12 @@ vnoremap > >gv
 nnoremap [b :bprevious<cr>
 nnoremap ]b :bnext<cr>
 
-" neo terminal
-  " open horizon terminal
-  " inoremap <Leader>t     <Esc>:sp<CR><C-w><C-w>:res 14<CR>:call AbsoluteHideNumber()<CR>:term$ZSH_BIN<CR>i
-  " nnoremap <Leader>t     :sp<CR><C-w><C-w>:res 14<CR>:call AbsoluteHideNumber()<CR>:term$ZSH_BIN<CR>i
-  " nnoremap <Leader>t     :sp<CR><C-w><C-w>:res 14<CR>:term zsh<CR>
+" terminal
 
   nnoremap <leader>r V:call SendToTerminal()<CR>$
   vnoremap <leader>r <Esc>:call SendToTerminal()<CR>
+  nnoremap <leader>s V:call SendToTerminalNoreturn()<CR>$
+  vnoremap <leader>s <Esc>:call SendToTerminalNoreturn()<CR>
   function! SendToTerminal()
     let buff_n = term_list()
     if len(buff_n) > 0
@@ -351,6 +349,24 @@ nnoremap ]b :bnext<cr>
       endfor
     endif
   endfunction
+  function! SendToTerminalNoreturn()
+    let buff_n = term_list()
+    if len(buff_n) > 0
+      let buff_n = buff_n[0] " sends to most recently opened terminal
+      let lines = getline(getpos("'<")[1], getpos("'>")[1])
+      let indent = match(lines[0], '[^ \t]') " check for removing unnecessary indent
+      for l in lines
+        let new_indent = match(l, '[^ \t]')
+        if new_indent == 0
+          call term_sendkeys(buff_n, l)
+        else
+          call term_sendkeys(buff_n, l[indent:])
+        endif
+        sleep 10m
+      endfor
+    endif
+  endfunction
+
   nnoremap <silent> <Leader>t     :sp<CR><C-w><C-w>:res 14<CR>:call AbsoluteHideNumber()<CR>
         \:terminal ++curwin zsh<CR>
   nnoremap <silent> <Leader><Leader>t     :vs<CR><C-w><C-w>:call AbsoluteHideNumber()<CR>
@@ -373,11 +389,12 @@ nnoremap ]b :bnext<cr>
   " terminal exit
 
   " tmap <Esc> <C-w><C-w>
-  tmap <C-t> <C-w><C-w>
+  " tmap <C-t> <C-w><C-w>
   tmap <C-k> <C-w>k
   tnoremap <C-k> <C-w>k
 
-  " tmap <Esc> <C-\><C-N>
+  tmap <C-i> <C-\><C-N>
+  tmap <C-w> <C-h>
   " tmap <C-j> <C-\><C-N><C-w>j
   " tmap <C-h> <C-\><C-N><C-w>h
   " tmap <C-l> <C-\><C-N><C-w>l
