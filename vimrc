@@ -52,7 +52,7 @@ endif
 "==========================================
 " Theme
 "==========================================
-set termguicolors
+" set termguicolors
 " if &term =~ '256color'
   " " disable Background Color Erase (BCE) so that color schemes
   " " render properly when inside 256-color tmux and GNU screen.
@@ -328,6 +328,7 @@ nnoremap ]b :bnext<cr>
 
 " terminal
 
+if v:version > 800
   nnoremap <leader>r V:call SendToTerminal()<CR>$
   vnoremap <leader>r <Esc>:call SendToTerminal()<CR>
   nnoremap <leader>s V:call SendToTerminalNoreturn()<CR>$
@@ -400,5 +401,6 @@ nnoremap ]b :bnext<cr>
   " tmap <C-l> <C-\><C-N><C-w>l
   " tmap <C-D> <C-d>close<CR>
   " tnoremap <Leader>q i<C-d>close<CR>
+endif
 
    source ~/.vim/vimrc.plug
