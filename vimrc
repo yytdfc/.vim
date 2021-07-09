@@ -256,8 +256,8 @@ nnoremap ; :
 
 
 " 命令行模式增强，ctrl - a到行首， -e 到行尾
-cnoremap <C-j> <t_kd>
-cnoremap <C-k> <t_ku>
+" cnoremap <C-j> <t_kd>
+" cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
@@ -298,14 +298,24 @@ inoremap jj <Esc>
 
 " close current buffer
 function! CloseBuffer()
-  let l:n = len(getbufinfo())
+  let l:bl = airline#extensions#tabline#buflist#list()
+  let l:n = len(l:bl)
+
   if l:n <= 1
+    bwipe
     q
   else
-    bwipe
+    let l:idx = bufnr('%')
+    let l:bi = index(l:bl, l:idx)
+    if l:bi == 0
+      exec 'b!' . l:bl[(l:bi + 1) % len(l:bl)]
+    else
+      exec 'b!' . l:bl[(l:bi - 1) % len(l:bl)]
+    endif
+    exec "bwipe ".l:idx
   endif
-
 endfunction
+
 nnoremap <leader>q :call CloseBuffer()<CR>
 
 " Quickly save the current file
@@ -377,6 +387,19 @@ if v:version > 800
   nnoremap <C-n> <C-w>j
   nnoremap <C-j> <C-w>j
   nnoremap <C-k> <C-w>k
+  " unmap <Esc>
+  function! CloseTerminal()
+    let l:n = len(getbufinfo())
+    if l:n <= 1
+      q!
+    else
+      bw!
+    endif
+  endfunction
+  tnoremap <C-d> <C-\><C-n>:call CloseTerminal()<CR>
+  " tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-t> <C-\><C-n>
+  tnoremap <C-k> <C-w>k
   " :res 14<CR>:call AbsoluteHideNumber()<CR>i
   " inoremap <Leader>t     <Esc>:sp<CR><C-w><C-w>:res 14<CR>:term$ZSH_BIN<CR>i
   " open vertical terminal
@@ -390,12 +413,13 @@ if v:version > 800
   " terminal exit
 
   " tmap <Esc> <C-w><C-w>
-  " tmap <C-t> <C-w><C-w>
-  tmap <C-k> <C-w>k
-  tnoremap <C-k> <C-w>k
+  " tnoremap <C-i> <C-\><C-N>
+  " tnoremap <C-w> <C-h>
+  " tmap <C-d> <C-d>:call CloseBuffer()<CR>
 
-  tmap <C-i> <C-\><C-N>
-  tmap <C-w> <C-h>
+  " tmap <C-k> <C-w>k
+  " tmap <C-i> <C-\><C-N>
+  " tmap <C-w> <C-h>
   " tmap <C-j> <C-\><C-N><C-w>j
   " tmap <C-h> <C-\><C-N><C-w>h
   " tmap <C-l> <C-\><C-N><C-w>l
@@ -403,4 +427,4 @@ if v:version > 800
   " tnoremap <Leader>q i<C-d>close<CR>
 endif
 
-   source ~/.vim/vimrc.plug
+source ~/.vim/vimrc.plug

@@ -12,6 +12,7 @@ endif
 
 call plug#begin('~/.vim/plug')
 
+Plug 'editorconfig/editorconfig-vim'
 Plug 'dense-analysis/ale'
 let g:ale_linters = {
       \ 'python': ['pyflakes', 'pep8']
@@ -139,7 +140,7 @@ let g:ale_linters = {
 " airline {{{
   " 状态栏增强展示
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-    " let g:airline_powerline_fonts = 1
+    let g:airline_powerline_fonts = 0
     if !exists('g:airline_symbols')
         let g:airline_symbols = {}
     endif
@@ -149,29 +150,31 @@ let g:ale_linters = {
     let g:airline_right_alt_sep = '❮'
     let g:airline_symbols.linenr = '¶'
     let g:airline_symbols.branch = '⎇'
+
     " 是否打开tabline
     let g:airline#extensions#tabline#enabled = 1
+    " ▶ ┃ ║ ┇ ┆
+    " let g:airline#extensions#tabline#left_sep = '▶'
+    let g:airline#extensions#tabline#left_alt_sep = '┃'
+    " let g:airline#extensions#tabline#right_sep = '◀'
+    " let g:airline#extensions#tabline#right_alt_sep = '❮'
     let g:airline#extensions#tabline#show_splits = 1
     let g:airline#extensions#tabline#show_tabs = 1
     let g:airline#extensions#tabline#excludes = ['ZSH_BIN']
     let g:airline#extensions#tabline#exclude_preview = 1
     let g:airline#extensions#tabline#buffer_idx_mode = 1
-    let g:airline#extensions#tabline#buffer_idx_format = {
-          \ '0': '[0] ',
-          \ '1': '[1] ',
-          \ '2': '[2] ',
-          \ '3': '[3] ',
-          \ '4': '[4] ',
-          \ '5': '[5] ',
-          \ '6': '[6] ',
-          \ '7': '[7] ',
-          \ '8': '[8] ',
-          \ '9': '[9] '
-          \}
-    let g:airline#extensions#tabline#left_sep = '▶'
-    let g:airline#extensions#tabline#left_alt_sep = '❯'
-    let g:airline#extensions#tabline#right_sep = '❮'
-    let g:airline#extensions#tabline#right_alt_sep = '◀'
+    " let g:airline#extensions#tabline#buffer_idx_format = {
+          " \ '0': '[0] ',
+          " \ '1': '[1] ',
+          " \ '2': '[2] ',
+          " \ '3': '[3] ',
+          " \ '4': '[4] ',
+          " \ '5': '[5] ',
+          " \ '6': '[6] ',
+          " \ '7': '[7] ',
+          " \ '8': '[8] ',
+          " \ '9': '[9] '
+          " \}
     nmap <leader>1 <Plug>AirlineSelectTab1
     nmap <leader>2 <Plug>AirlineSelectTab2
     nmap <leader>3 <Plug>AirlineSelectTab3
@@ -185,6 +188,8 @@ let g:ale_linters = {
     nmap <right> <Plug>AirlineSelectNextTab
     nmap <C-u> <Plug>AirlineSelectPrevTab
     nmap <C-i> <Plug>AirlineSelectNextTab
+
+    " let g:airline_theme='deus'
 " }}}
 
 
