@@ -15,8 +15,31 @@ call plug#begin('~/.vim/plug')
 Plug 'editorconfig/editorconfig-vim'
 Plug 'dense-analysis/ale'
 let g:ale_linters = {
-      \ 'python': ['pyflakes', 'pep8']
+      \ 'python': ['pyflakes', 'pep8', 'pylint']
       \}
+      " \ 'python': ['pylint']
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⁉️'
+
+"在vim自带的状态栏中整合ale
+
+" let g:ale_statusline_format = ['✗ %d', '⚡ %d', '✔ OK']
+
+"显示Linter名称,出错或警告等相关信息
+
+let g:ale_echo_msg_error_str = 'Error'
+
+let g:ale_echo_msg_warning_str = 'Warning'
+
+let g:ale_echo_msg_format = '[%linter% - %severity%] %s '
+
+" nmap sp (ale_previous_wrap)
+" nmap sn (ale_next_wrap)
+nmap <silent> <Leader>h <Plug>(ale_previous_wrap)
+nmap <silent> <Leader>j <Plug>(ale_next_wrap)
+" nmap <silent> sn <Plug>(ale_next_wrap)
+
+      " \ 'python': ['pylint', 'pyflakes', 'pep8']
       " \ 'cpp': ['cppcheck'],
       " \ 'c': ['cppcheck'],
 " Plug 'nvie/vim-flake8'
