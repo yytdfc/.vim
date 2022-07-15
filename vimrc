@@ -1,116 +1,70 @@
+"==========================================
+" basic setting
+"==========================================
+let mapleader = ','
+let g:mapleader = ','
+nnoremap ; :
+set mouse=v
 
-" leader 快捷键区
-  " 修改leader键
-  let mapleader = ','
-  let g:mapleader = ','
+
+"==========================================
+" encoding
+"==========================================
+set encoding=utf-8
+" 自动判断编码时，依次尝试以下编码：
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set helplang=cn
+" 下面这句只影响普通模式 (非图形界面) 下的 Vim
+set termencoding=utf-8
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+" 如遇Unicode值大于255的文本，不必等到空格再折行
+set formatoptions+=m
+" 合并两行中文时，不在中间加空格
+set formatoptions+=B
 
 
-" Vim System Config
-  " 取消备份。 视情况自己改
-  set nobackup
-  " 关闭交换文件
-  set noswapfile
-  " 文件修改之后自动载入
-  set autoread
-  " 启动的时候不显示那个援助乌干达儿童的提示
-  set shortmess=atI
-  " 检测文件类型
-  filetype on
-  " 针对不同的文件类型采用不同的缩进格式
-  filetype indent on
-  " 允许插件
-  filetype plugin on
-  " 启动自动补全
-  filetype plugin indent on
-  " 启用鼠标
-  set mouse=v
-set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
-" change the terminal's title
-set title
-" 去掉输入错误的提示声音
-set novisualbell
-set noerrorbells
-set t_vb=
-set tm=500
+"==========================================
+" loading
+"==========================================
+syntax on
+set nocompatible
+
+" 取消备份。 视情况自己改
+set nobackup
+" 关闭交换文件
+set noswapfile
+" 文件修改之后自动载入
+set autoread
+" 启动的时候不显示那个援助乌干达儿童的提示
+set shortmess=atI
+" 检测文件类型
+filetype on
+" 针对不同的文件类型采用不同的缩进格式
+filetype indent on
+" 允许插件
+filetype plugin on
+" 启动自动补全
+filetype plugin indent on
+" Persistent undo
+set hidden
+set undofile
+set undodir=$HOME/.vim/undo
+
+set undolevels=1000
+set undoreload=10000
+
 
 " Remember info about open buffers on close
 set viminfo^=%
-
-" For regular expressions turn magic on
-set magic
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
 " 打开自动定位到最后编辑的位置, 需要确认 .viminfo 当前用户可写
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-
-
 "==========================================
-" Theme
+" searching
 "==========================================
-" set termguicolors
-" if &term =~ '256color'
-  " " disable Background Color Erase (BCE) so that color schemes
-  " " render properly when inside 256-color tmux and GNU screen.
-  " " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
-  " set t_ut=
-" endif
-  colorscheme molokai
-  let g:solarized_termcolors=256
-  " monokai原始背景色
-  let g:molokai_original = 1
-  let g:rehash256 = 1
-  " theme主题
-  set background=dark
-  " 开启语法高亮
-  syntax on
-  " 突出显示当前列
-  set cursorcolumn
-  " 突出显示当前行
-  set cursorline
-
-" set background=light
-set t_Co=256
-
-
-
-"==========================================
-" Display Settings 展示/排版等界面格式设置
-"==========================================
-
-" 显示当前的行号列号
-set ruler
-" 在状态栏显示正在输入的命令
-set showcmd
-" 左下角显示当前vim模式
-set showmode
-
-" 在上下移动光标时，光标的上方或下方至少会保留显示的行数
-set scrolloff=9
-
-" set winwidth=79
-
-" 命令行（在状态行下）的高度，默认为1，这里是2
-set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
-" Always show the status line - use 2 lines for the status bar
-set laststatus=2
-
-" 显示行号
-set number
-" 取消换行
-set nowrap
-
-" 括号配对情况, 跳转并高亮一下匹配的括号
-set showmatch
-" How many tenths of a second to blink when matching brackets
-set matchtime=2
-
-
-" 设置文内智能搜索提示
 " 高亮search命中的文本
 set hlsearch
 " 打开增量搜索模式,随着键入即时搜索
@@ -119,38 +73,136 @@ set incsearch
 set ignorecase
 " 有一个或以上大写字母时仍大小写敏感
 set smartcase
+" 去除以前搜索结果
+exec "nohlsearch"
+" For regular expressions turn magic on
+set magic
+" 去掉搜索高亮
+noremap <silent><leader>/ :nohls<CR>
+" Keep search pattern at the center of the screen.
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+" 进入搜索Use sane regexes"
+nnoremap / /\v
+vnoremap / /\v
+" switch # *
+nnoremap # *
+nnoremap * #
 
-" 代码折叠
-set foldenable
-" 折叠方法
-" manual    手工折叠
-" indent    使用缩进表示折叠
-" expr      使用表达式定义折叠
-" syntax    使用语法定义折叠
-" diff      对没有更改的文本进行折叠
-" marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
-set foldmethod=indent
-set foldlevel=99
-" 代码折叠自定义快捷键 <leader>zz
-let g:FoldMethod = 0
-map <leader>zz :call ToggleFold()<cr>
-fun! ToggleFold()
-    if g:FoldMethod == 0
-        exe "normal! zM"
-        let g:FoldMethod = 1
-    else
-        exe "normal! zR"
-        let g:FoldMethod = 0
-    endif
-endfun
 
+"==========================================
+" line
+"==========================================
+" 显示行号
+set number
+" 取消换行
+set nowrap
+" 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
+set relativenumber
+" 显示下划线
+" set cursorline
+" 显示当前的行号列号
+set ruler
+" 在状态栏显示正在输入的命令
+set showcmd
+" 左下角显示当前vim模式
+set showmode
+" 在上下移动光标时，光标的上方或下方至少会保留显示的行数
+set scrolloff=9
+" 隐藏行号
+function! AbsoluteHideNumber()
+  if(&number == 1)
+    set nonumber norelativenumber
+  else
+    set number relativenumber
+  endif
+endfunc
+map <Leader>n :call AbsoluteHideNumber()<CR>
+" 切换模型
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber number
+  else
+    set relativenumber
+  endif
+endfunc
+
+
+"==========================================
+" cmd
+"==========================================
+set showcmd
+set wildmenu
+set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
+" change the terminal's title
+set title
+" 去掉输入错误的提示声音
+set novisualbell
+set noerrorbells
+" 命令行模式增强，ctrl - a到行首， -e 到行尾
+" cnoremap <C-j> <t_kd>
+" cnoremap <C-k> <t_ku>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+" 命令行（在状态行下）的高度，默认为1，这里是2
+set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
+" Always show the status line - use 2 lines for the status bar
+set laststatus=2
+
+"==========================================
+" theme
+"==========================================
+colorscheme molokai
+let g:solarized_termcolors=256
+" monokai原始背景色
+let g:molokai_original = 1
+let g:rehash256 = 1
+" theme主题
+set background=dark
+" 突出显示当前列
+set cursorcolumn
+" 突出显示当前行
+set cursorline
+" set background=light
+set t_Co=256
+
+
+"==========================================
+" split
+"==========================================
+map sl :set splitright<CR>:vsplit<CR>
+map sh :set nosplitright<CR>:vsplit<CR>
+map sk :set nosplitbelow<CR>:split<CR>
+map sj :set splitbelow<CR>:split<CR>
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+nnoremap <silent> <Leader>j :res +5<CR>
+nnoremap <silent> <Leader>k :res -5<CR>
+nnoremap <silent> <Leader>h :vertical resize-5<CR>
+nnoremap <silent> <Leader>l :vertical resize+5<CR>
+nnoremap <silent> <C-=> :res +5<CR>
+nnoremap <silent> <C--> :res -5<CR>
+nnoremap <silent> + :vertical resize+5<CR>
+nnoremap <silent> _ :vertical resize-5<CR>
+" 切换横竖分屏
+map sv <C-w>t<C-w>H
+map sh <C-w>t<C-w>K
+
+
+"==========================================
+" indent
+"==========================================
 " 缩进配置
 " Smart indent
 set smartindent
 " 打开自动缩进
 " never add copyindent, case error   " copy the previous indentation on autoindenting
 set autoindent
-
 " tab相关变更
 " 设置Tab键的宽度        [等同的空格个数]
 set tabstop=2
@@ -165,179 +217,45 @@ set expandtab
 " 缩进时，取整 use multiple of shiftwidth when indenting with '<' and '>'
 set shiftround
 
-" A buffer becomes hidden when it is abandoned
-set hidden
-set wildmode=list:longest
-set ttyfast
-
-" 00x增减数字时使用十进制
-set nrformats=
-
-" 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
-set relativenumber number
-" au FocusLost * :set norelativenumber number
-" au FocusGained * :set relativenumber
-" 插入模式下用绝对行号, 普通模式下用相对
-" autocmd InsertEnter * :set norelativenumber number
-" autocmd InsertLeave * :set relativenumber
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set norelativenumber number
-  else
-    set relativenumber
-  endif
-endfunc
-
-
-
-
-
 "==========================================
-" FileEncode Settings 文件编码,格式
-"==========================================
-" 设置新文件的编码为 UTF-8
-set encoding=utf-8
-" 自动判断编码时，依次尝试以下编码：
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
-set helplang=cn
-"set langmenu=zh_CN.UTF-8
-"set enc=2byte-gb18030
-" 下面这句只影响普通模式 (非图形界面) 下的 Vim
-set termencoding=utf-8
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-" 如遇Unicode值大于255的文本，不必等到空格再折行
-set formatoptions+=m
-" 合并两行中文时，不在中间加空格
-set formatoptions+=B
-
-
-
-function! AbsoluteHideNumber()
-  set nonumber
-  set norelativenumber
-endfunc
-
-"==========================================
-" HotKey Settings  自定义快捷键设置
+" save & quit
 "==========================================
 
-" 我的快捷键：
-" 保存快捷键
-nnoremap <C-s> :w<CR>
-" inoremap <C-j> <DOWN>
-" inoremap <C-k> <UP>
-" inoremap <C-h> <LEFT>
-" inoremap <C-l> <RIGHT>
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+" Quickly save the current file
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
 
-
-" 主要按键重定义
-
-"Treat long lines as break lines (useful when moving around in them)
+"==========================================
+" navigation
+"==========================================
 "se swap之后，同物理行上线直接跳
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-
 " Go to home and end using capitalized directions
 noremap H ^
 noremap L $
-
-
-" Map ; to : and save a million keystrokes 用于快速进入命令行
-nnoremap ; :
-
-
-" 命令行模式增强，ctrl - a到行首， -e 到行尾
-" cnoremap <C-j> <t_kd>
-" cnoremap <C-k> <t_ku>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-
-
-" 搜索相关
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-" 进入搜索Use sane regexes"
-nnoremap / /\v
-vnoremap / /\v
-
-" Keep search pattern at the center of the screen.
-nnoremap <silent> n nzz
-nnoremap <silent> N Nzz
-nnoremap <silent> * *zz
-nnoremap <silent> # #zz
-nnoremap <silent> g* g*zz
-
-" 去掉搜索高亮
-noremap <silent><leader>/ :nohls<CR>
-
-" switch # *
-nnoremap # *
-nnoremap * #
-
-" for # indent, python文件中输入新行时#号注释不切回行首
-autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
-
-
-" select block
-nnoremap <leader>v `{jV`}k
-
-" 复制选中区到系统剪切板中
-vnoremap <leader>y "+y
-
 " jj 替换 Esc
 inoremap jj <Esc>
 
-" close current buffer
-function! CloseBuffer()
-  let l:bl = airline#extensions#tabline#buflist#list()
-  let l:n = len(l:bl)
 
-  if l:n <= 1
-    bwipe
-    q
-  else
-    let l:idx = bufnr('%')
-    let l:bi = index(l:bl, l:idx)
-    if l:bi == 0
-      exec 'b!' . l:bl[(l:bi + 1) % len(l:bl)]
-    else
-      exec 'b!' . l:bl[(l:bi - 1) % len(l:bl)]
-    endif
-    exec "bwipe ".l:idx
-  endif
-endfunction
-
-nnoremap <leader>q :call CloseBuffer()<CR>
-
-" Quickly save the current file
-nnoremap <leader>w :w<CR>
-
-" 交换 ' `, 使得可以快速使用'跳到marked位置
-nnoremap ' `
-nnoremap ` '
-
-
+"==========================================
+" visual model
+"==========================================
 " 调整缩进后自动选中，方便再次操作
 vnoremap < <gv
 vnoremap > >gv
+" select block
+" nnoremap <leader>v `{jV`}k
+nnoremap <leader>v <C-v>
+" 复制选中区到系统剪切板中
+vnoremap <C-c> "+y
+vnoremap q <ESC>
 
-" tab/buffer相关
-
-" 切换前后buffer
-nnoremap [b :bprevious<cr>
-nnoremap ]b :bnext<cr>
-
+"==========================================
 " terminal
-
+"==========================================
 if v:version > 800
   nnoremap <leader>r V:call SendToTerminal()<CR>$
   vnoremap <leader>r <Esc>:call SendToTerminal()<CR>
@@ -378,16 +296,21 @@ if v:version > 800
     endif
   endfunction
 
-  nnoremap <silent> <Leader>t     :sp<CR><C-w><C-w>:res 14<CR>:call AbsoluteHideNumber()<CR>
+
+  nnoremap <silent> <Leader>t     :set splitbelow<CR>:split<CR>:res 14<CR>:call AbsoluteHideNumber()<CR>
         \:terminal ++curwin zsh<CR>
-  nnoremap <silent> <Leader><Leader>t     :vs<CR><C-w><C-w>:call AbsoluteHideNumber()<CR>
+  nnoremap <silent> <Leader><Leader>t     :set splitright<CR>:vsplit<CR>:call AbsoluteHideNumber()<CR>
         \:terminal ++curwin zsh<CR>
-  nnoremap <silent> <Leader>i     :sp<CR><C-w><C-w>:res 14<CR>:call AbsoluteHideNumber()<CR>
+  nnoremap <silent> <Leader>i     :set splitbelow<CR>:split<CR>:res 14<CR>:call AbsoluteHideNumber()<CR>
         \:terminal ++curwin ipython<CR>
-  nnoremap <C-n> <C-w>j
-  nnoremap <C-j> <C-w>j
-  nnoremap <C-k> <C-w>k
-  " unmap <Esc>
+
+  tnoremap <C-d> <C-\><C-n>:call CloseTerminal()<CR>
+  " tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-t> <C-\><C-n>
+  tnoremap <C-k> <C-w>k
+  tnoremap <C-h> <C-w>h
+  tnoremap <C-b> <ESC>b
+
   function! CloseTerminal()
     let l:n = len(getbufinfo())
     if l:n <= 1
@@ -396,35 +319,6 @@ if v:version > 800
       bw!
     endif
   endfunction
-  tnoremap <C-d> <C-\><C-n>:call CloseTerminal()<CR>
-  " tnoremap <Esc> <C-\><C-n>
-  tnoremap <C-t> <C-\><C-n>
-  tnoremap <C-k> <C-w>k
-  " :res 14<CR>:call AbsoluteHideNumber()<CR>i
-  " inoremap <Leader>t     <Esc>:sp<CR><C-w><C-w>:res 14<CR>:term$ZSH_BIN<CR>i
-  " open vertical terminal
-  " nnoremap <Leader>b     :vs<CR><C-w><C-w><CR>:term$ZSH_BIN<CR>i
-  " quick to terminal insert mode
-  " " quick make
-  " nnoremap <Leader>m     <C-w>jimake<CR><C-\><C-n><C-w>k
-  " inoremap <Leader>m     <Esc><C-w>jimake<CR><C-\><C-n><C-w>k
-  " nnoremap <Leader>l     <C-w>ji<C-p><CR><C-\><C-n><C-w>k
-  " inoremap <Leader>l     <Esc><C-w>ji<C-p><CR><C-\><C-n><C-w>k
-  " terminal exit
-
-  " tmap <Esc> <C-w><C-w>
-  " tnoremap <C-i> <C-\><C-N>
-  " tnoremap <C-w> <C-h>
-  " tmap <C-d> <C-d>:call CloseBuffer()<CR>
-
-  " tmap <C-k> <C-w>k
-  " tmap <C-i> <C-\><C-N>
-  " tmap <C-w> <C-h>
-  " tmap <C-j> <C-\><C-N><C-w>j
-  " tmap <C-h> <C-\><C-N><C-w>h
-  " tmap <C-l> <C-\><C-N><C-w>l
-  " tmap <C-D> <C-d>close<CR>
-  " tnoremap <Leader>q i<C-d>close<CR>
 endif
 
 source ~/.vim/vimrc.plug
