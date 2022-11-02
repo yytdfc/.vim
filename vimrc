@@ -258,7 +258,54 @@ vnoremap q <ESC>
 "==========================================
 " terminal
 "==========================================
-if v:version > 800
+if has('nvim')
+  " neo terminal
+  nnoremap <leader>r V:call SendToTerminal()<CR>$
+  vnoremap <leader>r <Esc>:call SendToTerminal()<CR>
+  nnoremap <silent> <Leader>t     :sp<CR><C-w><C-w>:res 14<CR>:call AbsoluteHideNumber()<CR>
+        \:terminal zsh<CR>i
+  nnoremap <silent> <Leader><Leader>t     :vs<CR><C-w><C-w>:call AbsoluteHideNumber()<CR>
+        \:terminal zsh<CR>i
+  nnoremap <silent> <Leader>i     :sp<CR><C-w><C-w>:res 14<CR>:call AbsoluteHideNumber()<CR>
+        \:terminal ipython<CR>i
+  " nnoremap <C-n> <C-w>j
+  nnoremap <C-j> <C-w>j
+  nnoremap <C-k> <C-w>k
+  " :res 14<CR>:call AbsoluteHideNumber()<CR>i
+  " inoremap <Leader>t     <Esc>:sp<CR><C-w><C-w>:res 14<CR>:term$ZSH_BIN<CR>i
+  " open vertical terminal
+  " nnoremap <Leader>b     :vs<CR><C-w><C-w><CR>:term$ZSH_BIN<CR>i
+  " quick to terminal insert mode
+  " " quick make
+  " nnoremap <Leader>m     <C-w>jimake<CR><C-\><C-n><C-w>k
+  " inoremap <Leader>m     <Esc><C-w>jimake<CR><C-\><C-n><C-w>k
+  " nnoremap <Leader>l     <C-w>ji<C-p><CR><C-\><C-n><C-w>k
+  " inoremap <Leader>l     <Esc><C-w>ji<C-p><CR><C-\><C-n><C-w>k
+  " terminal exit
+
+  " tmap <Esc> <C-\><C-n>
+  " tmap <C-t> <C-\><C-n>
+  " tmap <C-k> <C-w>k
+  " tnoremap <C-k> <C-\><C-n><C-w>k
+
+  tmap <Esc> <C-\><C-N>
+  tmap <C-j> <C-\><C-N><C-w>j
+  tmap <C-k> <C-\><C-N><C-w>k
+  tmap <C-h> <C-\><C-N><C-w>h
+  tmap <C-l> <C-\><C-N><C-w>l
+  tnoremap <C-d> <C-\><C-n>:call CloseTerminal()<CR>
+  " tmap <C-D> <C-d>close<CR>
+  " tnoremap <C-k> <C-\><C-n><C-w>k
+  tnoremap <Leader>q i<C-d>close!<CR>
+  function! CloseTerminal()
+    let l:n = len(getbufinfo())
+    if l:n <= 1
+      q!
+    else
+      bw!
+    endif
+  endfunction
+elseif v:version > 800
   nnoremap <leader>r V:call SendToTerminal()<CR>$
   vnoremap <leader>r <Esc>:call SendToTerminal()<CR>
   nnoremap <leader>s V:call SendToTerminalNoreturn()<CR>$
@@ -297,7 +344,6 @@ if v:version > 800
       endfor
     endif
   endfunction
-
 
   nnoremap <silent> <Leader>t     :set splitbelow<CR>:split<CR>:res 14<CR>:call AbsoluteHideNumber()<CR>
         \:terminal ++curwin zsh<CR>
