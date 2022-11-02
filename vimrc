@@ -238,6 +238,8 @@ noremap H ^
 noremap L $
 " jj 替换 Esc
 inoremap jj <Esc>
+" 解决backspace不能使用
+set backspace=indent,eol,start
 
 
 "==========================================
