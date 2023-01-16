@@ -112,6 +112,12 @@ set showcmd
 set showmode
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=9
+" 列宽
+set cc=80
+" 括号配对情况, 跳转并高亮一下匹配的括号
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set matchtime=2
 " 隐藏行号
 function! AbsoluteHideNumber()
   if(&number == 1)
@@ -136,7 +142,7 @@ endfunc
 "==========================================
 set showcmd
 set wildmenu
-set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
+set wildignore+=*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.,__pycache__
 " change the terminal's title
 set title
 " 去掉输入错误的提示声音

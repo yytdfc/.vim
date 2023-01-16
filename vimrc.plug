@@ -34,12 +34,15 @@ Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
   " nerdtreetabs
   map tt <plug>NERDTreeTabsToggle<CR>
   " 关闭同步
-  let g:nerdtree_tabs_synchronize_view=0
-  let g:nerdtree_tabs_synchronize_focus=0
+  let g:nerdtree_tabs_synchronize_view=1
+  let g:nerdtree_tabs_synchronize_focus=1
   " 是否自动开启nerdtree
   " thank to @ListenerRi, see https://github.com/wklken/k-vim/issues/165
   let g:nerdtree_tabs_open_on_console_startup=0
   let g:nerdtree_tabs_open_on_gui_startup=0
+
+  " 隐藏不必要文件
+  let NERDTreeRespectWildIgnore=1
 
 "==========================================
 " airline
@@ -191,5 +194,12 @@ let g:ale_echo_msg_format = '[%linter% - %severity%] %s '
 " nmap sn (ale_next_wrap)
 nmap <silent> <Leader>h <Plug>(ale_previous_wrap)
 nmap <silent> <Leader>j <Plug>(ale_next_wrap)
+
+"==========================================
+" file ranger
+"==========================================
+Plug 'francoiscabrol/ranger.vim'
+nmap <silent> tf :Ranger<CR>
+
 
 call plug#end()
