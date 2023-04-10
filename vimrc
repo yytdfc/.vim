@@ -60,6 +60,8 @@ set viminfo^=%
 " 打开自动定位到最后编辑的位置, 需要确认 .viminfo 当前用户可写
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  " imgcat
+  au BufEnter *.png,*.jpg,*gif,*webp,*jpeg exec "! imgcat --height 20 ".expand("%") | :call CloseBuffer() | :NERDTreeFocus
 endif
 
 "==========================================
@@ -264,6 +266,15 @@ vnoremap q <ESC>
 "==========================================
 " terminal
 "==========================================
+function! CloseTerminal()
+  let l:n = len(getbufinfo())
+  if l:n <= 1
+    q!
+  else
+    bw!
+  endif
+endfunction
+
 if has('nvim')
   " neo terminal
   nnoremap <leader>r V:call SendToTerminal()<CR>$
@@ -302,20 +313,26 @@ if has('nvim')
   tnoremap <C-d> <C-\><C-n>:call CloseTerminal()<CR>
   " tmap <C-D> <C-d>close<CR>
   " tnoremap <C-k> <C-\><C-n><C-w>k
-  tnoremap <Leader>q i<C-d>close!<CR>
-  function! CloseTerminal()
-    let l:n = len(getbufinfo())
-    if l:n <= 1
-      q!
-    else
-      bw!
-    endif
-  endfunction
+  tnoremap <leader>q i<C-d>close!<CR>
+
+
+
+
 elseif v:version > 800
+  " nnoremap <silent> <leader>p :call term_sendkeys(term_list()[0], \"./push.sh\<CR>\")<CR>$
+  nnoremap <silent> <leader>p :call SendPushToTerminal()<CR>$
   nnoremap <leader>r V:call SendToTerminal()<CR>$
   vnoremap <leader>r <Esc>:call SendToTerminal()<CR>
   nnoremap <leader>s V:call SendToTerminalNoreturn()<CR>$
   vnoremap <leader>s <Esc>:call SendToTerminalNoreturn()<CR>
+  function! SendPushToTerminal()
+    let buff_n = term_list()
+    if len(buff_n) > 0
+      let buff_n = buff_n[0] " sends to most recently opened terminal
+      call term_sendkeys(buff_n, "./push.sh\<CR>")
+    else
+    endif
+  endfunction
   function! SendToTerminal()
     let buff_n = term_list()
     if len(buff_n) > 0
@@ -365,14 +382,6 @@ elseif v:version > 800
   tnoremap <C-h> <C-w>h
   tnoremap <C-b> <ESC>b
 
-  function! CloseTerminal()
-    let l:n = len(getbufinfo())
-    if l:n <= 1
-      q!
-    else
-      bw!
-    endif
-  endfunction
 endif
 
 source ~/.vim/vimrc.plug

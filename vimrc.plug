@@ -2,6 +2,11 @@
 call plug#begin('~/.vim/plug')
 
 "==========================================
+" repeat
+"==========================================
+Plug 'tpope/vim-repeat'
+
+"==========================================
 " goyo
 "==========================================
 Plug 'junegunn/goyo.vim'
@@ -43,6 +48,7 @@ Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
 
   " 隐藏不必要文件
   let NERDTreeRespectWildIgnore=1
+  nmap T :NERDTreeFind<CR>
 
 "==========================================
 " airline
@@ -95,7 +101,7 @@ Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
       exec "bwipe ".l:idx
     endif
   endfunction
-  nnoremap <leader>q :call CloseBuffer()<CR>
+  nnoremap <silent> <leader>q :call CloseBuffer()<CR>
 
 
 "==========================================
@@ -112,6 +118,11 @@ Plug 'scrooloose/nerdcommenter'
 "==========================================
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
+
+"==========================================
+" js
+"==========================================
+Plug 'MaxMEllon/vim-jsx-pretty'
 
 
 "==========================================
@@ -199,7 +210,47 @@ nmap <silent> <Leader>j <Plug>(ale_next_wrap)
 " file ranger
 "==========================================
 Plug 'francoiscabrol/ranger.vim'
-nmap <silent> tf :Ranger<CR>
+nmap <silent> F :Ranger<CR>
+
+"==========================================
+" chatgpt
+"==========================================
+Plug 'dense-analysis/neural', { 'branch': 'main' }
+Plug 'muniftanjim/nui.nvim', { 'branch': 'main' }
+Plug 'elpiloto/significant.nvim', { 'branch': 'main' }
+let g:neural = {
+\   'selected': "chatgpt",
+\   'source': {
+\       'chatgpt': {
+\           'api_key': "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",
+\       },
+\   },
+\}
+nmap oo :Neural
+
+
+"==========================================
+" fzf
+"==========================================
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+function! s:getVisualSelection()
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+    let lines = getline(line_start, line_end)
+
+    if len(lines) == 0
+        return ""
+    endif
+
+    let lines[-1] = lines[-1][:column_end - (&selection == "inclusive" ? 1 : 2)]
+    let lines[0] = lines[0][column_start - 1:]
+
+    return join(lines, "\n")
+endfunction
+nmap <silent> <leader>f :FZF<CR>
+vnoremap <silent><leader>f <Esc>:FZF -q <C-R>=<SID>getVisualSelection()<CR><CR>
+
+let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.6, 'relative': v:true } }
 
 
 call plug#end()
