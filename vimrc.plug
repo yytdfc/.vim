@@ -80,6 +80,7 @@ Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
   nmap <leader>7 <Plug>AirlineSelectTab7
   nmap <leader>8 <Plug>AirlineSelectTab8
   nmap <leader>9 <Plug>AirlineSelectTab9
+  nmap <leader>0 <Plug>AirlineSelectTab1 <Plug>AirlineSelectPrevTab
   nmap <left> <Plug>AirlineSelectPrevTab
   nmap <right> <Plug>AirlineSelectNextTab
   nmap <C-u> <Plug>AirlineSelectPrevTab
@@ -123,6 +124,10 @@ Plug 'hynek/vim-python-pep8-indent'
 " js
 "==========================================
 Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'pangloss/vim-javascript'
+" Plug 'neoclide/vim-jsx-improve'
+" let g:jsx_improve_javascriptreact = 1
+
 
 
 "==========================================
@@ -192,13 +197,12 @@ let g:ale_sign_warning = '⁉️'
 "在vim自带的状态栏中整合ale
 
 " let g:ale_statusline_format = ['✗ %d', '⚡ %d', '✔ OK']
+let g:ale_virtualtext_cursor = 'disabled'
 
 "显示Linter名称,出错或警告等相关信息
 
 let g:ale_echo_msg_error_str = 'Error'
-
 let g:ale_echo_msg_warning_str = 'Warning'
-
 let g:ale_echo_msg_format = '[%linter% - %severity%] %s '
 
 " nmap sp (ale_previous_wrap)
@@ -210,23 +214,23 @@ nmap <silent> <Leader>j <Plug>(ale_next_wrap)
 " file ranger
 "==========================================
 Plug 'francoiscabrol/ranger.vim'
-nmap <silent> F :Ranger<CR>
+" nmap <silent> F :Ranger<CR>
 
 "==========================================
 " chatgpt
 "==========================================
-Plug 'dense-analysis/neural', { 'branch': 'main' }
-Plug 'muniftanjim/nui.nvim', { 'branch': 'main' }
-Plug 'elpiloto/significant.nvim', { 'branch': 'main' }
-let g:neural = {
-\   'selected': "chatgpt",
-\   'source': {
-\       'chatgpt': {
-\           'api_key': "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",
-\       },
-\   },
-\}
-nmap oo :Neural
+" Plug 'dense-analysis/neural', { 'branch': 'main' }
+" Plug 'muniftanjim/nui.nvim', { 'branch': 'main' }
+" Plug 'elpiloto/significant.nvim', { 'branch': 'main' }
+" let g:neural = {
+" \   'selected': "chatgpt",
+" \   'source': {
+" \       'chatgpt': {
+" \           'api_key': "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",
+" \       },
+" \   },
+" \}
+" nmap oo :Neural
 
 
 "==========================================
@@ -247,8 +251,8 @@ function! s:getVisualSelection()
 
     return join(lines, "\n")
 endfunction
-nmap <silent> <leader>f :FZF<CR>
-vnoremap <silent><leader>f <Esc>:FZF -q <C-R>=<SID>getVisualSelection()<CR><CR>
+nmap <silent> F :FZF<CR>
+vnoremap <silent> F <Esc>:FZF -q <C-R>=<SID>getVisualSelection()<CR><CR>
 
 let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.6, 'relative': v:true } }
 

@@ -61,7 +61,7 @@ set viminfo^=%
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
   " imgcat
-  au BufEnter *.png,*.jpg,*gif,*webp,*jpeg exec "! imgcat --height 20 ".expand("%") | :call CloseBuffer() | :NERDTreeFocus
+  au BufEnter *.png,*.jpg,*gif,*webp,*jpeg exec "! imgcat --height 30 ".expand("%") | :call CloseBuffer() | :NERDTreeFocus
 endif
 
 "==========================================
