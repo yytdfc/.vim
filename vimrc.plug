@@ -28,7 +28,11 @@ Plug 'mg979/vim-visual-multi'
 Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
   " map <leader>n :NERDTreeToggle<CR>
   let NERDTreeHighlightCursorline=1
-  let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+  let NERDTreeIgnore=[ 
+    \ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '\.egg-info$[[dir]]',
+    \ '^\.vscode$[[dir]]', '^\.git$[[dir]]', '^\.svn$[[dir]]', '^\.hg$[[dir]]', 
+    \ '^\.idea$[[dir]]', '^\.vscode$[[dir]]', '^\.DS_Store$',
+    \ ]
   "close vim if the only window left open is a NERDTree
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
   " s/v 分屏打开文件
@@ -251,10 +255,18 @@ function! s:getVisualSelection()
 
     return join(lines, "\n")
 endfunction
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 nmap <silent> F :FZF<CR>
 vnoremap <silent> F <Esc>:FZF -q <C-R>=<SID>getVisualSelection()<CR><CR>
 
 let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.6, 'relative': v:true } }
+
+"==========================================
+" ack ag
+"==========================================
+Plug 'mileszs/ack.vim'
+" let g:ackprg = 'ag --vimgrep'
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 
 call plug#end()
