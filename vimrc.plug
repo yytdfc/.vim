@@ -195,8 +195,11 @@ let g:ale_linters = {
       \ 'python': ['pyflakes', 'pep8', 'pylint']
       \}
       " \ 'python': ['pylint']
-let g:ale_sign_error = '❌'
-let g:ale_sign_warning = '⁉️'
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+highlight! ALEErrorSign ctermfg=9 ctermbg=235 guifg=#C30500 guibg=#F5F5F5
+highlight! ALEWarningSign ctermfg=11 ctermbg=235 guifg=#ED6237 guibg=#F5F5F5
+highlight! ALEInfoSign   ctermfg=14 ctermbg=235 guifg=#ED6237 guibg=#F5F5F5
 
 "在vim自带的状态栏中整合ale
 
@@ -219,23 +222,6 @@ nmap <silent> <Leader>j <Plug>(ale_next_wrap)
 "==========================================
 Plug 'francoiscabrol/ranger.vim'
 " nmap <silent> F :Ranger<CR>
-
-"==========================================
-" chatgpt
-"==========================================
-" Plug 'dense-analysis/neural', { 'branch': 'main' }
-" Plug 'muniftanjim/nui.nvim', { 'branch': 'main' }
-" Plug 'elpiloto/significant.nvim', { 'branch': 'main' }
-" let g:neural = {
-" \   'selected': "chatgpt",
-" \   'source': {
-" \       'chatgpt': {
-" \           'api_key': "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",
-" \       },
-" \   },
-" \}
-" nmap oo :Neural
-
 
 "==========================================
 " fzf
